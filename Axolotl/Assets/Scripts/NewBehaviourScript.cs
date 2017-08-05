@@ -3,22 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour {
+    private Rigidbody2D rigBod;
+    public float jumpHeight = 140;
+    public float speed = 200;
+    public float maxForward = 20;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+
+    // Use this for initialization
+    void Start () {
+        rigBod = GetComponent<Rigidbody2D>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 1));
+            Debug.Log("jump");
+            rigBod.AddForce(new Vector2(0, jumpHeight));
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, -1));
+            Debug.Log("left");
+
+            rigBod.AddForce(new Vector2(-speed,0));
         }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            Debug.Log("right");
+            rigBod.AddForce(new Vector2(speed, 0));
+        }
+
+
+
+        if (rigBod.velocity.magnitude > maxForward)
+        {
+            Vector2.ClampMagnitude(rigBod.velocity, maxForward);
+        }
+        
 	}
 
 
